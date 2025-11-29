@@ -1,0 +1,42 @@
+services:
+  backend:
+    build: ./backend
+    container_name: dawini-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DJANGO_DEBUG=True
+      - MONGO_URI=mongodb://mongo:27017
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - mongo
+      - redis
+
+  frontend:
+    build: ./frontend
+    container_name: dawini-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo:latest
+    container_name: dawini-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  redis:
+    image: redis:latest
+    container_name: dawini-redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  mongo_data:

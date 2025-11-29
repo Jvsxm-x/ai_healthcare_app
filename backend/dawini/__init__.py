@@ -1,0 +1,1 @@
+default_app_config = 'Dawini2025.apps.DawiniConfig'
